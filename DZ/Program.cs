@@ -38,7 +38,7 @@ namespace DZ
                 {
                     arr[k, i] = value;
                 }
-                side -= 2;
+                
             }
         }
 
@@ -49,7 +49,7 @@ namespace DZ
             Console.Write("Введите размер двумерного массива: ");
             int side = int.Parse(Console.ReadLine());
 
-            Console.Write("Введите чисто от которого начинаем отсчёт: ");
+            Console.Write("Введите число от которого начинаем отсчёт: ");
             int value = int.Parse(Console.ReadLine());
 
             int[,] arr = new int[side, side];
