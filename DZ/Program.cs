@@ -1,85 +1,64 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DZ
 {
     internal class Program
-    {
-        static void rndArr(int[,,] arr)
+    {       
+
+        static void showArr(int[,] arr)
         {
-            Random rnd = new Random();
-            bool exist;
-            int rndNew;
-            for(int i = 0;  i < arr.GetLength(0); i++)
+            for (int i = 0; i < arr.GetLength(0); i++)
             {
                 for (int j = 0; j < arr.GetLength(1); j++)
                 {
-                    for (int k = 0; k < arr.GetLength(2);)
-                    {
-                        exist = false;
-                        rndNew = rnd.Next(10,100);
-
-                        for (int a = 0; a < arr.GetLength(0); a++)
-                        {
-                            for (int b = 0; b < arr.GetLength(1); b++)
-                            {
-                                for (int c = 0; c < arr.GetLength(2); c++)
-                                {
-                                    if (arr[a, b, c] == rndNew)
-                                    {
-                                        exist = true;
-                                        break;
-                                    }
-                                    if (exist == true)
-                                        break;
-                                }
-                                if (exist == true)
-                                    break;
-                            }
-                            if (exist == true)
-                                break;
-                        }
-
-                        if (!exist)
-                        {
-                            arr[i, j, k] = rndNew;
-                            k++;
-                        }
-                    }
+                    Console.Write(arr[i, j] + "\t");
                 }
+                Console.WriteLine();
             }
         }
 
-        static void showArr(int[,,] arr)
+        static void fillArr(int[,] arr, int side, int value)
         {
-            for(int i = 0;i < arr.GetLength(0); i++)
+            for (int i = 0, a = 0; a < arr.GetLength(0) * arr.GetLength(0); i++)
             {
-                for(int j = 0; j < arr.GetLength(1); j++)
+                for (int j = i; j < arr.GetLength(0) - i; j++, value++, a++)
                 {
-                    for(int k = 0; k < arr.GetLength(2); k++)
-                    {
-                        Console.Write($"{arr[i,j,k]} ({i},{j},{k}) \t");
-                    }
-                    Console.WriteLine();
+                    arr[i, j] = value;
                 }
-                Console.WriteLine("-------------------------------------------");
+                for (int k = i + 1; k < arr.GetLength(0) - i; k++, value++, a++)
+                {
+                    arr[k, (arr.GetLength(0) - i) - 1] = value;
+                }
+                for (int k = (arr.GetLength(0) - i) - 2; k > i; k--, value++, a++)
+                {
+                    arr[(arr.GetLength(0) - i) - 1, k] = value;
+                }
+                for (int k = (arr.GetLength(0) - i) - 1; k > i; k--, value++, a++)
+                {
+                    arr[k, i] = value;
+                }
+                side -= 2;
             }
         }
-            
+
+
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Размер трёхмерного массива будет [3,3,3] ");
-                      
+            Console.Write("Введите размер двумерного массива: ");
+            int side = int.Parse(Console.ReadLine());
 
-            int[,,] arr = new int[3,3,3];
+            Console.Write("Введите чисто от которого начинаем отсчёт: ");
+            int value = int.Parse(Console.ReadLine());
+
+            int[,] arr = new int[side, side];
+
+            fillArr(arr, side, value);
             
-            rndArr(arr);
+            showArr(arr);                                   
 
-            showArr(arr);
+            
 
             Console.ReadLine();
         }
