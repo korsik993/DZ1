@@ -15,7 +15,7 @@ namespace DZ
             {
                 for (int j = 0; j < arr.GetLength(1); j++)
                 {
-                    arr[i,j] = rnd.Next(100);
+                    arr[i,j] = rnd.Next(6);
                 }
             }
         }
@@ -32,23 +32,31 @@ namespace DZ
             }
         }
 
-        static void Sort(int[,] arr)
+        static void findMin(int[,] arr)
         {
-            for (int i = 0; i < arr.GetLength(0); i++)
+            int[] sum = new int[arr.GetLength(0)];
+            int str = 1;
+
+            for (int i = 0;i < arr.GetLength(0); i++)
             {
-                for (int j = 0; j < arr.GetLength(1); j++)
+                for(int j = 0;j < arr.GetLength(1); j++)
                 {
-                    for(int k = 0, a = 0; k < arr.GetLength(1); k++)
-                    {
-                        if (arr[i,j] > arr[i,k])
-                        {
-                            a = arr[i,j];
-                            arr[i,j] = arr[i,k];
-                            arr[i,k] = a;
-                        }
-                    }
+                    sum[i] += arr[i,j];                    
+                }                
+            }
+            
+            int min = sum[0];
+            
+            for (int i = 0; i < sum.Length - 1; i++)
+            {
+                if (min > sum[i + 1])
+                {
+                    min = sum[i + 1];
+                    str = i + 2;
                 }
             }
+
+            Console.WriteLine("Наименшая сумма элементов находится в " + str + " строке");
         }
 
         static void Main(string[] args)
@@ -64,11 +72,9 @@ namespace DZ
             rndArr(arr);
             showArr(arr);
 
-            Sort(arr);
+            findMin(arr);
 
-            Console.WriteLine("--------------------------");
-
-            showArr(arr);
+            
 
 
 
