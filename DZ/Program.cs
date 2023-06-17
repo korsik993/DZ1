@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace DZ
             {
                 for (int j = 0; j < arr.GetLength(1); j++)
                 {
-                    arr[i,j] = rnd.Next(6);
+                    arr[i,j] = rnd.Next(1,5);
                 }
             }
         }
@@ -32,52 +33,44 @@ namespace DZ
             }
         }
 
-        static void findMin(int[,] arr)
+        static int[,] multiArr(int[,] arr1, int[,] arr2, int side)
         {
-            int[] sum = new int[arr.GetLength(0)];
-            int str = 1;
+            int[,] arrMult = new int[side, side];
 
-            for (int i = 0;i < arr.GetLength(0); i++)
+            for (int i = 0;i < side; i++)
             {
-                for(int j = 0;j < arr.GetLength(1); j++)
-                {
-                    sum[i] += arr[i,j];                    
-                }                
-            }
-            
-            int min = sum[0];
-            
-            for (int i = 0; i < sum.Length - 1; i++)
-            {
-                if (min > sum[i + 1])
-                {
-                    min = sum[i + 1];
-                    str = i + 2;
+                for(int j = 0;j < side; j++)
+                {                                      
+                    for (int k = 0;k < side; k++)
+                    {
+                        arrMult[i, j] += arr1[i, k] * arr2[k, j];
+                    }
                 }
             }
-
-            Console.WriteLine("Наименшая сумма элементов находится в " + str + " строке");
+            return arrMult;
         }
 
         static void Main(string[] args)
         {
-            Console.Write("Введите количество строк: ");
-            int row = int.Parse(Console.ReadLine());
+            Console.Write("Введите размер квадратной матрицы: ");
+            int side = int.Parse(Console.ReadLine());
 
-            Console.Write("Введите количество элементов в строке: ");
-            int col = int.Parse(Console.ReadLine());
+            int[,] arr1 = new int[side, side];
 
-            int[,] arr = new int[row, col];
+            int[,] arr2 = new int[side, side];
 
-            rndArr(arr);
-            showArr(arr);
+            rndArr(arr1);
+            rndArr(arr2);
 
-            findMin(arr);
+            Console.WriteLine("Матрица № 1");
+            showArr(arr1);
+            Console.WriteLine("Матрица № 2");
+            showArr(arr2);
 
-            
+            int[,] multArr = multiArr(arr1 , arr2, side);
 
-
-
+            Console.WriteLine("Произведение 2-х квадратных матриц");
+            showArr(multArr);
 
             Console.ReadLine();
         }
